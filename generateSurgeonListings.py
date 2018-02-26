@@ -1,5 +1,12 @@
-# This script will build a listing of all procedures that a surgeon can book
-# Input files should be encoded as UTF-8
+# This program will create a PDF file for each surgeon listing each procedure they can book
+# 
+# Source files (encoded as UTF-8):
+#   - Surgeons (Employee#, Last Name, First Name, Full Name, Service, Site)
+#   - SRPG Procedures (Site,SRPG Description,Procedure#, Procedure Description)
+#   - Doctor Preference Cards (Site,Resource Card#,DPC Group Name,Employee#,Surgeon Name,Procedure#,Procedure Description) 
+#   - SRPG Cards (Site,Resource Card#,DPC Group Name,Employee#,Surgeon Name,SRPG#,SRPG Description)
+#   - Alternate Procedure Definitions (Code,Procedure Description,Alternate Description)
+#
 # Author: Aaron Suggitt
 # Future Enhancements:
 #    - Compare previously generated file to new output. Only export if changes occurred
@@ -7,6 +14,17 @@
 #    - Better position Report generated label (right justify)
 #    - Column wrapping for long procedures
 #    - Add different options for output (DPC List, SOA List)
+
+### CONSTANTS - FILENAMES ###
+
+PATH_TO_SOURCE_FILES = 'source/'
+SURGEONS_FILE = 'surgeons.csv'
+SRPG_PROCEDURES_FILE = 'srpg_procedures.csv'
+DPC_CARDS_FILE = 'dpc_cards.csv'
+SRPG_CARDS_FILE = 'srpg_cards.csv'
+ALTERNATE_DEFINITIONS_FILE = 'alternate_definitions.csv'
+
+
 
 import csv
 
@@ -46,31 +64,31 @@ def addProcedureHint(code, procedure, procedure_hints_list):
     return procedure
 
 # Open and read hints file
-with open('source/procedure_hints.csv', 'r') as procedureHintsFile:
+with open((PATH_TO_SOURCE_FILES + ALTERNATE_DEFINITIONS_FILE), 'r') as procedureHintsFile:
      procedure_hints_list = list(csv.reader(procedureHintsFile, delimiter=',', quotechar='"'))
      procedure_hints_list.pop(0)
 procedureHintsFile.close
 
 # Open and read DPC procedures file
-with open('source/dpc_cards.csv', 'r') as dpcCardFile:
+with open((PATH_TO_SOURCE_FILES + DPC_CARDS_FILE), 'r') as dpcCardFile:
      dpc_list = list(csv.reader(dpcCardFile, delimiter=',', quotechar='"'))
      dpc_list.pop(0)
 dpcCardFile.close
 
 # Open and read DPC SRPG file
-with open('source/srpg_cards.csv', 'r') as srpg_card_file:
+with open((PATH_TO_SOURCE_FILES + SRPG_PROCEDURES_FILE), 'r') as srpg_card_file:
      srpg_list = list(csv.reader(srpg_card_file, delimiter=',', quotechar='"'))
      srpg_list.pop(0)
 srpg_card_file.close
 
 # Open and read surgeon file
-with open('source/surgeons.csv', 'r') as surgeonFile:
+with open((PATH_TO_SOURCE_FILES + SURGEONS_FILE), 'r') as surgeonFile:
      surgeonList = list(csv.reader(surgeonFile, delimiter=',', quotechar='"'))
      surgeonList.pop(0)
 surgeonFile.close
 
 # Open and read SRPG procedures file
-with open('source/srpg_procedures.csv', 'r') as srpg_procedures_file:
+with open((PATH_TO_SOURCE_FILES + SRPG_PROCEDURES_FILE), 'r') as srpg_procedures_file:
      srpg_procedures_list = list(csv.reader(srpg_procedures_file, delimiter=',', quotechar='"'))
      srpg_procedures_list.pop(0)
 srpg_procedures_file.close
